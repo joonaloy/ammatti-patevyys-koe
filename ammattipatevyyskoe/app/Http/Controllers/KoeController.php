@@ -11,4 +11,17 @@ class KoeController extends Controller
     {
         return view("koe.index");
     }
+    public function login_view()
+    {
+        return view("koe.login");
+    }
+    public function login(Request $request)
+    {
+        return view("koe.index");
+    }
+    public function result(Request $request)
+    {
+        return $request["test"];
+        //return view("koe.result");
+    }
 }
