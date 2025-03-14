@@ -16,6 +16,6 @@ class vastaukset extends Model
     ];
 
     protected $casts = [
-        'VastausArray' => 'array',
+        'VastausArray' => 'string',
     ];
 }

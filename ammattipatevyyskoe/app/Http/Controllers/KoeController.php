@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\kysymykset;
 use App\Models\user;
 use Illuminate\Http\Request;
 
@@ -10,7 +11,11 @@ class KoeController extends Controller
 {
     public function index()
     {
-        return view("koe.index");
+        $kysymykset = kysymykset::where("Ryhmä",session("Ryhmä"))->where("Sarja",session("Sarja"))->first();
+        $array = $kysymykset->KysymysArray;
+        $array  = json_decode($array, true);
+        $index =1;
+        return view("koe.index",["array" => $array,"index"=> $index]);
     }
     public function login_view()
     {
@@ -33,7 +38,7 @@ class KoeController extends Controller
     }
     public function result(Request $request)
     {
-        return $request["test"];
+        return $request;
         //return view("koe.result");
     }
 }

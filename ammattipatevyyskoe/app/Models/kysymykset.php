@@ -16,6 +16,6 @@ class kysymykset extends Model
     ];
 
     protected $casts = [
-        'KysymysArray' => 'array',
+        'KysymysArray' => 'string',
     ];
 }
