@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\opettaja;
 use App\Models\user;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,14 @@ class OpettajaController extends Controller
     }
     public function login(Request $request)
     {
-        return view("opettaja.index");
+        $request->validate(["Tunnus" => "required"]);
+        $oikeaTunnus = opettaja::all();
+        if ($request["Tunnus"] == $oikeaTunnus->first()->Tunnus){
+            session(["Opettaja" => True]);
+            return redirect("/opettaja");
+        }else{
+            return redirect("/opettaja/login")->withErrors(["message"=>"Väärä tunnus"]);
+        }
     }
     public function create_user_view()
     {
