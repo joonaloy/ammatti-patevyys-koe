@@ -10,3 +10,57 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+*{
+    font-family: sans-serif;
+}
+#opettaja-link{
+    position: absolute;
+    right: 0;
+    top: 0; /* Adjust this value as needed to position it vertically */
+    margin-right: 20px; /* Optional: Add some margin if needed */
+    margin-top: 20px;
+}
+#luo-tunnus{
+    position: absolute;
+    right: 0;
+    top: 0; /* Adjust this value as needed to position it vertically */
+    margin-right: 125px; /* Optional: Add some margin if needed */
+    margin-top: 20px;
+
+}
+#kysymykset{
+    position: absolute;
+    right: 0;
+    top: 0; /* Adjust this value as needed to position it vertically */
+    margin-right: 20px; /* Optional: Add some margin if needed */
+    margin-top: 20px;
+
+}
+/* copilot */
+.custom-checkbox {
+    appearance: none; /* Remove default checkbox styling */
+    -webkit-appearance: none; /* Remove default checkbox styling for WebKit browsers */
+    width: 24px;
+    height: 24px;
+    border: 1px solid #726c6c;
+    background-color: #fff;
+    text-align: center;
+    line-height: 24px;
+    cursor: pointer;
+    font-size: 24px;
+    user-select: none;
+}
+
+.custom-checkbox::before {
+    content: '-';
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 24px;
+    color: #000;
+}
+
+.custom-checkbox:checked::before {
+    content: '+';
+}

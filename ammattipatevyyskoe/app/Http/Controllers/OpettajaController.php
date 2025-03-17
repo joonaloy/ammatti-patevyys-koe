@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\kysymykset;
 use App\Models\opettaja;
 use App\Models\user;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class OpettajaController extends Controller
 {
     //
     public function index()
     {
-        $test = user::query()->orderByDesc("id")->get();
-        dd($test);
-        return view("opettaja.index");
+        $users = user::orderByDesc("Pvm")->get();
+        return view("opettaja.index",["users"=>$users]);
     }
     public function login_view()
     {
@@ -37,7 +38,14 @@ class OpettajaController extends Controller
     }
     public function create_user(Request $request)
     {
-        return view("opettaja.index");
+        $request->validate(["Etunimi" => "required",
+        "Sukunimi" => "required",
+        "Ryhmä" => "required"]);
+        $Tunnus = bin2hex(random_bytes(16));
+        $count = kysymykset::where("Ryhmä",$request["Ryhmä"])->count();
+        $Sarja = rand(1,$count);
+        User::create(["Etunimi"=> $request["Etunimi"],"Sukunimi"=>$request["Sukunimi"],"Tunnus" => $Tunnus,"Ryhmä"=> $request["Ryhmä"],"Sarja"=> $Sarja]);
+        return redirect("/opettaja");
     }
     public function view(string $id)
     {
@@ -45,7 +53,8 @@ class OpettajaController extends Controller
     }
     public function delete(string $id)
     {
-        return view("opettaja.index");
+        User::findOrFail($id)->delete();
+        return redirect("/opettaja");
     }
     public function questions()
     {

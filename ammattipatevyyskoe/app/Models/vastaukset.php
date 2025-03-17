@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class vastaukset extends Model
 {
+    public $timestamps = false; // Disable Laravel's automatic timestamps
     protected $table = "vastaukset";
     protected $primaryKey = "Id";
     protected $fillable = [

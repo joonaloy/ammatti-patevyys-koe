@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class user extends Model
 {
+    public $timestamps = false; // Disable Laravel's automatic timestamps
     protected $table = "user";
     protected $primaryKey = "Id";
     protected $fillable = [
