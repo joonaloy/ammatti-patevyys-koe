@@ -27,7 +27,7 @@ Route::get("/opettaja/view/{id}", [OpettajaController::class,"view"])->name("ope
 Route::get("/opettaja/delete/{id}", [OpettajaController::class,"delete"])->name("opettaja.delete")->middleware(opettajaAuth::class);
 
 Route::get("/opettaja/questions", [OpettajaController::class,"questions"])->name("opettaja.questions")->middleware(opettajaAuth::class);
-Route::get("/opettaja/questions/edit/{group}/{series}", [OpettajaController::class,"edit_questions_view"])->name("opettaja.edit_questions_view")->middleware(opettajaAuth::class);
+Route::post("/opettaja/questions/edit", [OpettajaController::class,"edit_questions_view"])->name("opettaja.edit_questions_view")->middleware(opettajaAuth::class);
 Route::post("/opettaja/questions", [OpettajaController::class,"edit_questions"])->name("opettaja.edit_questions")->middleware(opettajaAuth::class);
 
 

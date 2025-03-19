@@ -45,6 +45,7 @@ class KoeController extends Controller
         $vastaukset = vastaukset::where("Ryhmä",session("Ryhmä"))->where("Sarja",session("Sarja"))->first();
         $array = $vastaukset->VastausArray;
         $vastausArray  = json_decode($array, true);
+        $request->request->remove("_token");
         $Vastaus = $request->all();
         $Pisteet = 0;
         $PisteMax = 0;
