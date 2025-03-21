@@ -14,35 +14,41 @@ class KoeController extends Controller
 {
     public function index()
     {
-        $kysymykset = kysymykset::where("Ryhmä",session("Ryhmä"))->where("Sarja",session("Sarja"))->first();
+        //hakee oppilaan vastattavat kysymykset
+        $kysymykset = kysymykset::where("Ryhmä", session("Ryhmä"))->where("Sarja", session("Sarja"))->first();
         $array = $kysymykset->KysymysArray;
         $array  = json_decode($array, true);
-        $index =1;
-        return view("koe.index",["array" => $array,"index"=> $index]);
+        $index = 1;
+        return view("koe.index", ["array" => $array, "index" => $index]);
     }
     public function login_view()
     {
+        //kirjautumissivu
         return view("koe.login");
     }
     public function login(Request $request)
     {
+        //oppilaan kirjautuminen
         $request->validate(["Tunnus" => "required"]);
         $user = user::where("Tunnus", $request->Tunnus)->first();
         if ($user == null || $user->Palautettu == 1) {
-            return redirect("koe/login")->withErrors(["message"=>"Väärä tai jo käytetty tunnus."]);
+            return redirect("koe/login")->withErrors(["message" => "Väärä tai jo käytetty tunnus."]);
         }
-        session(["Tunnus" => $user->Tunnus,
+        session([
+            "Tunnus" => $user->Tunnus,
             "Etunimi" => $user->Etunimi,
             "Sukunimi" => $user->Sukunimi,
-            "Ryhmä"=>$user->Ryhmä,
+            "Ryhmä" => $user->Ryhmä,
             "Palautettu" => $user->Palautettu,
-            "Sarja"=>$user->Sarja]);
+            "Sarja" => $user->Sarja
+        ]);
         return redirect("koe");
     }
     public function result(Request $request)
     {
+        //kokeen palautuksen validointi
         session(["Palautettu" => 1]);
-        $vastaukset = vastaukset::where("Ryhmä",session("Ryhmä"))->where("Sarja",session("Sarja"))->first();
+        $vastaukset = vastaukset::where("Ryhmä", session("Ryhmä"))->where("Sarja", session("Sarja"))->first();
         $array = $vastaukset->VastausArray;
         $vastausArray  = json_decode($array, true);
         $request->request->remove("_token");
@@ -56,15 +62,12 @@ class KoeController extends Controller
             if (isset($vastausArray[$key])) {
                 if ($value === $vastausArray[$key]) {
                     //jos sama vastaus +1 piste
-                    //echo "Match for $key: $value<br>";
-                    $Pisteet +=1;
-                    $PisteMax +=1;
+                    $Pisteet += 1;
+                    $PisteMax += 1;
                 } else {
-                    //echo "-------------------------No match for $key: $value (expected " . $VastausArray[$key] . ")<br>";
-                    $PisteMax +=1;
+                    $PisteMax += 1;
                 }
             } else {
-                //echo "Key $key not found in reference array<br>";
             }
         }
 
@@ -73,11 +76,12 @@ class KoeController extends Controller
         $tz = "Europe/Helsinki";
         $timestamp = time();
 
-        // Using Carbon instead of DateTime
+        //palautus päivämäärä
         $dt = Carbon::createFromTimestamp($timestamp, $tz);
         $formattedDate = $dt->format('Y-m-d H:i:s');
 
-        $kysymykset = kysymykset::where("Ryhmä",session("Ryhmä"))->where("Sarja",session("Sarja"))->first();
+        //tallentaa tietokantaan kokeen palautuksen
+        $kysymykset = kysymykset::where("Ryhmä", session("Ryhmä"))->where("Sarja", session("Sarja"))->first();
         $kysymysArray = $kysymykset->KysymysArray;
         $user = user::where("Tunnus", session("Tunnus"))->first();
         $user->update([
@@ -87,6 +91,6 @@ class KoeController extends Controller
             "Palautus" => $jsonEncodedArray,
             "Pvm" => $formattedDate,
         ]);
-        return view("koe.result",["Pisteet"=> $Pisteet,"PisteMax"=> $PisteMax]);
+        return view("koe.result", ["Pisteet" => $Pisteet, "PisteMax" => $PisteMax]);
     }
 }

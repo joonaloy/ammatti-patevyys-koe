@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class vastaukset extends Model
 {
-    public $timestamps = false; // Disable Laravel's automatic timestamps
+
+    //tietokannan vastaus malli
+    public $timestamps = false; 
     protected $table = "vastaukset";
     protected $primaryKey = "Id";
     protected $fillable = [

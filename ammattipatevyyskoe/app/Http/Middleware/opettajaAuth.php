@@ -15,15 +15,17 @@ class opettajaAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!$this ->opettajaAuth()){
+        if (!$this->opettajaAuth()) {
             return redirect("/opettaja/login");
         }
         return $next($request);
     }
-    private function opettajaAuth(){
-        if(session("Opettaja") == True){
+    //opettaja authentication
+    private function opettajaAuth()
+    {
+        if (session("Opettaja") == True) {
             return True;
-        }else{
+        } else {
             return False;
         }
     }

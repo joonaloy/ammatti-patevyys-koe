@@ -15,15 +15,17 @@ class userAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!$this ->userAuth()){
+        if (!$this->userAuth()) {
             return redirect("/koe/login");
         }
         return $next($request);
     }
-    private function userAuth(){
-        if(session("Tunnus") != null && session("Palautettu") == 0){
+    //oppilas authentication
+    private function userAuth()
+    {
+        if (session("Tunnus") != null && session("Palautettu") == 0) {
             return True;
-        }else{
+        } else {
             return False;
         }
     }

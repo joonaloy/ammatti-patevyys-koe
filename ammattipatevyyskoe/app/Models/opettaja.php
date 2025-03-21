@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class opettaja extends Model
 {
+    //tietokannan opettaja malli
     protected $table = "opettaja";
     protected $guarded = ["Tunnus"] ;
 }
